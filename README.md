@@ -200,5 +200,21 @@ Firebase Hosting rewrites all routes to `index.html`.
 
 ---
 
-## 📂 Project Structure
 
+---
+
+## 🔐 Security Note
+- Firebase rules are currently open for demo/testing.
+- Authentication and rule locking can be added later.
+
+---
+
+## 🧾 Summary
+Fast & Foodious is a realtime canteen ordering system built using Firebase that demonstrates atomic transactions, realtime syncing, and a clean frontend workflow without authentication.
+
+---
+
+## 👤 Author
+**Mohammed Nabeel T**
+
+---
