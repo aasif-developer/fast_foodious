@@ -12,6 +12,41 @@ import {
 document.addEventListener("DOMContentLoaded", () => {
 console.log("🔥 app.js loaded");
 console.log("🔥 db =", db);
+
+  // ---- Meal Support System ----
+  let supportMode = false;
+
+  const supportBtn = document.getElementById("supportBtn");
+  const supportSessionKey = "supportUsed";
+    const donationCheckbox = document.getElementById("donationCheckbox");
+
+  if (supportBtn) {
+
+    // Disable if already used this session
+    if (sessionStorage.getItem(supportSessionKey)) {
+      supportBtn.disabled = true;
+      supportBtn.textContent = "💛 Support Already Used";
+      supportBtn.classList.remove("btn-warning");
+      supportBtn.classList.add("btn-secondary");
+    }
+
+    supportBtn.addEventListener("click", async () => {
+
+      if (sessionStorage.getItem(supportSessionKey)) {
+        alert("Support already used in this session.");
+        return;
+      }
+
+      supportMode = true;
+
+      supportBtn.textContent = "💛 Support Mode Active";
+      supportBtn.classList.remove("btn-warning");
+      supportBtn.classList.add("btn-success");
+
+      alert("Support Mode Activated. ₹30 will be deducted during checkout.");
+    });
+  }
+
   // Helpers
   const safeParse = s => { try { return JSON.parse(s); } catch(e){ return null; } };
   const sessionTokensKey = "myTokens"; // session-only info so user can view their orders
@@ -68,9 +103,25 @@ console.log("🔥 db =", db);
     });
 
     if (total > 0) {
+      let discount = 0;
+
+      if (supportMode) {
+        discount = Math.min(30, total);
+        total = total - discount;
+      }
+
       modalBillItems.appendChild(ol); // append the whole ordered list
       tokenNumberEl.textContent = `🎟️ Token (will be assigned when you confirm)`;
+      if (discount > 0) {
+        const discountLine = document.createElement("p");
+        discountLine.style.color = "green";
+        discountLine.style.fontWeight = "bold";
+        discountLine.textContent = `💛 Meal Support Applied: -₹${discount}`;
+        modalBillItems.appendChild(discountLine);
+      }
+
       modalGrandTotal.textContent = `Grand Total: ₹${total}`;
+
       const billModal = new bootstrap.Modal(document.getElementById('billModal'));
       billModal.show();
     } else {
@@ -138,10 +189,21 @@ console.log("🔥 db =", db);
       return;
     }
 
-    const orderObj = {
-      items: orderItems,
-      total
-    };
+let donationAmount = 0;
+
+if (donationCheckbox && donationCheckbox.checked) {
+  donationAmount = 5;
+  total += 5;
+}
+
+const orderObj = {
+  items: orderItems,
+  total,
+  donationAmount: donationAmount,
+  supportUsed: supportMode,
+  discountAmount: supportMode ? 30 : 0
+};
+
 
     try {
       const { token } = await createOrderInFirebase(orderObj);
@@ -157,6 +219,14 @@ console.log("🔥 db =", db);
 
       // reset quantities
       document.querySelectorAll(".quantity").forEach(i => i.value = 0);
+      if (supportMode) {
+  sessionStorage.setItem(supportSessionKey, true);
+  supportMode = false;
+}
+
+if (donationCheckbox) {
+  donationCheckbox.checked = false;
+}
 
       // notify user
       alert(`✅ Order placed. Your Token #${token}. Wait for staff to update status.`);

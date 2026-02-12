@@ -1,107 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>User Feedback</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; }
-    header { background: linear-gradient(90deg,#007bff,#00c6ff); color:white; text-align:center; padding:15px; text-shadow:1px 1px 4px rgba(0,0,0,0.3); }
-    .container { max-width:700px; margin:20px auto; background:white; padding:20px; border-radius:12px; box-shadow:0px 4px 8px rgba(0,0,0,0.1); }
-    h2, h1 { text-align:center; margin-bottom:20px; color:#333; }
-    label { font-weight:bold; margin-top:10px; display:block; }
-    input, textarea, select { width:100%; padding:10px; margin-top:5px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; }
-    .btn { background:#007bff; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; transition:0.3s; }
-    .btn:hover { background:#0056b3; transform:scale(1.05); }
-    .yt-btn { background:#ff0000; margin-top:15px; }
-    .yt-btn:hover { background:#cc0000; box-shadow:0px 0px 10px rgba(255,0,0,0.6); }
-    video { display:block; margin:15px 0; width:100%; border-radius:8px; }
-    .footer-btn { display:flex; justify-content:center; margin-top:25px; }
-  </style>
+<meta charset="UTF-8">
+<title>Fast & Foodious – Feedback Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #dbeafe, #fce7f3);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass-card {
+  backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 20px;
+  padding: 40px;
+  width: 95%;
+  max-width: 650px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 30px;
+  color: #475569;
+}
+
+label {
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+  color: #334155;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 18px;
+  font-size: 14px;
+  background: rgba(255,255,255,0.9);
+  transition: 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(99,102,241,0.3);
+}
+
+.success-box {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  display: none;
+}
+
+.success-box strong {
+  color: #16a34a;
+}
+
+.footer-note {
+  margin-top: 25px;
+  font-size: 13px;
+  text-align: center;
+  color: #64748b;
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>User Feedback</h1>
-    <p id="datetime"></p>
-  </header>
 
-  <div class="container">
-    <h1>Feedback Form</h1>
-    <form id="feedbackForm">
-      <label for="name">Full Name:</label>
-      <input type="text" id="name" name="name" required>
+<div class="glass-card">
+  <h1>📋 Feedback & Transparency Portal</h1>
+  <p class="subtitle">
+    All submissions are timestamped and reviewed by the canteen administration.
+  </p>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+  <form id="feedbackForm">
+    <label>Full Name</label>
+    <input type="text" name="name" required>
 
-      <label for="date">Preferred Visit Date:</label>
-      <input type="date" id="date" name="date" required>
+    <label>Email</label>
+    <input type="email" name="email" required>
 
-      <label for="satisfaction">Satisfaction (1 to 10):</label>
-      <input type="range" id="satisfaction" name="satisfaction" min="1" max="10" value="5">
+    <label>Complaint Category</label>
+    <select name="category" required>
+      <option value="">Select Category</option>
+      <option>Food Quality</option>
+      <option>Hygiene</option>
+      <option>Delay in Service</option>
+      <option>Staff Behaviour</option>
+      <option>Suggestion</option>
+    </select>
 
-      <label for="feedback">Your Feedback:</label>
-      <textarea id="feedback" name="feedback" rows="4" required></textarea>
+    <label>Priority Level</label>
+    <select name="priority" required>
+      <option value="">Select Priority</option>
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
 
-      <button type="button" class="btn yt-btn" onclick="openYouTube()">Watch About Our College</button>
+    <label>Your Feedback / Complaint</label>
+    <textarea name="feedback" rows="4" required></textarea>
 
-      <div class="footer-btn">
-        <button type="submit" class="btn">Submit Feedback</button>
-      </div>
-    </form>
+    <button type="submit">Submit Complaint</button>
+  </form>
+
+  <div class="success-box" id="successBox">
+    <strong>Complaint Submitted Successfully!</strong><br>
+    Your Complaint ID: <span id="complaintId"></span>
   </div>
 
+  <div class="footer-note">
+    Fast & Foodious – Transparent Campus Food Governance System
+  </div>
+</div>
+
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw2eVskdecbFrUT2QzQe6hz0TEyv2BXosTRpiEryBb0U7rwD3qeDyiwJsYIWvZKeh7Xzw/exec";
-  const form = document.getElementById("feedbackForm");
-  const submitBtn = document.querySelector("#feedbackForm button[type='submit']");
+const scriptURL = "https://script.google.com/macros/s/AKfycbw2eVskdecbFrUT2QzQe6hz0TEyv2BXosTRpiEryBb0U7rwD3qeDyiwJsYIWvZKeh7Xzw/exec";
+const form = document.getElementById("feedbackForm");
+const successBox = document.getElementById("successBox");
+const complaintIdEl = document.getElementById("complaintId");
 
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
+function generateComplaintId() {
+  return "CMP-" + Math.floor(100000 + Math.random() * 900000);
+}
 
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Submitting...";
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
 
-    const formData = new FormData(form);
+  const complaintId = generateComplaintId();
+  complaintIdEl.textContent = complaintId;
 
-    fetch(scriptURL, {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.json())
-    .then(resJson => {
-      if (resJson.status === "success") {
-        alert("✅ Feedback submitted successfully!");
-        form.reset();
-      } else {
-        alert("❌ Error: " + resJson.message);
-      }
-    })
-    .catch(err => {
-      console.error("Fetch error:", err);
-      alert("❌ Network/Server error: " + err.message);
-    })
-    .finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.innerText = "Submit Feedback";
-    });
+  const formData = new FormData(form);
+  formData.append("complaintId", complaintId);
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(() => {
+    successBox.style.display = "block";
+    form.reset();
+  })
+  .catch(err => {
+    alert("submitting feedback.");
+    console.error(err);
   });
-
-  // Example: YouTube Button
-  function openYouTube() {
-    window.open("https://www.youtube.com/watch?v=yL1e3aQ--4Q", "_blank");
-  }
-
-  // Date & Time
-  function updateDateTime() {
-    const now = new Date();
-    document.getElementById("datetime").innerText = now.toLocaleString();
-  }
-  setInterval(updateDateTime, 1000);
-  updateDateTime();
-
-  let h1 = document.querySelector("h1");
-  if (h1) h1.style.color = "#fdf005";
+});
 </script>
+
 </body>
 </html>
+
+<!--
+🚀 FUTURE SCOPE – Digital Complaint Transparency System
+
+This feedback module is currently integrated with Google Sheets 
+for structured complaint recording and timestamp storage.
+
+Planned Enhancements:
+
+1️⃣ Firebase-Based Complaint Tracking
+   - Store complaints inside Firebase Realtime Database
+   - Assign lifecycle statuses: Open → In Progress → Resolved
+   - Real-time updates for staff dashboard
+
+2️⃣ Complaint Tracking Portal
+   - Students can enter their Complaint ID
+   - View live resolution status
+   - Transparent response timeline
+
+3️⃣ Staff Governance Dashboard
+   - Dedicated complaints section inside staff panel
+   - Priority-based sorting (High / Medium / Low)
+   - Resolution action buttons
+   - Performance analytics on complaint categories
+
+4️⃣ Anonymous Complaint Mode
+   - Optional anonymous submission
+   - Protected identity handling
+   - Safe reporting mechanism
+
+5️⃣ Automated Escalation Logic
+   - High-priority complaints flagged automatically
+   - Escalation to higher authorities if unresolved beyond threshold
+
+6️⃣ Analytics & Quality Insights
+   - Track most common complaint categories
+   - Generate service improvement reports
+   - Identify operational bottlenecks
+
+This system aims to evolve into a fully transparent, 
+data-driven campus food governance framework.
+-->
