@@ -445,23 +445,13 @@ if (upiOption) {
 
     await updatePaymentStatus(latestToken, "UPI", "Unpaid");
 
-    const amountElement = document.getElementById("modalGrandTotal");
-    const amountMatch = amountElement.textContent.match(/₹([\d.]+)/);
-
-    let amount = amountMatch
-      ? parseFloat(amountMatch[1])
-      : 0;
-
-    // Add 0.01 for throttling safety (demo trick)
-    amount = (amount + 0.01).toFixed(2);
-
     const upiID = "aasifmmd12345@oksbi";
     const name = "FastFoodius";
 
-    // 🔥 Android Intent for Google Pay
-    const intentURI = `intent://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
+    // 🚀 No amount parameter
+    const upilink = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&cu=INR`;
 
-    window.location.href = intentURI;
+    window.location.href = upilink;
   });
 }
 
