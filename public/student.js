@@ -449,11 +449,11 @@ if (upiOption) {
     const amountMatch = amountElement.textContent.match(/₹(\d+)/);
     const amount = amountMatch ? amountMatch[1] : 0;
 
-    const upiID = "tmdnabeel4656.tmn@oksbi"; // <-- replace with your real UPI ID
+    const upiID = "aasifmmd12345@oksbi"; // <-- replace with your real UPI ID
     const name = "FastFoodious";
 
     const upiLink = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=Token-${latestToken}`;
-
+    console.log(upiLink);
     window.location.href = upiLink;
   });
 }
